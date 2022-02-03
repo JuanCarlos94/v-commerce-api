@@ -1,9 +1,11 @@
 const Deal = require('./../models/Deal');
+const mongoose = require('mongoose');
 
 module.exports = {
     async create(userId, data){
         const deal = new Deal(data);
         deal.setUserId(userId);
+        deal.setPoint();
         return await deal.save();
     },
     async findById(userId, id){
@@ -19,6 +21,21 @@ module.exports = {
         });
     },
     async search(params){
-        return await Deal.find({type: params.type, 'location.lat': params.lat, 'location.lng': params.lng}).exec();
+        let query = {};
+        query = params.type ? Object.assign({type: params.type}, query) : query;
+        if(params.value_start && params.value_end){
+            query = Object.assign({value: {$gte: params.value_start, $lte: params.value_end}}, query)
+        } else if(params.value_start) {
+            query = Object.assign({value: {$gte: params.value_start}}, query);
+        } else if(params.value_end){
+            query = Object.assign({value: {$lte: params.value_end}}, query);
+        }
+
+        if(params.term){
+            let regex = new RegExp(params.term, 'i');
+            query = Object.assign({$and: [{$or: [{trade_for: regex}, {description: regex}]}]}, query);
+        }
+
+        return await Deal.find(query);
     }
 }

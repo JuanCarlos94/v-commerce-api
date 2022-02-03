@@ -270,7 +270,7 @@ const options = {
                     }
                 }
             },
-            "/users": {
+            "/user": {
                 post: {
                     tags: ['Users'],
                     summary: 'Create a new user.',
@@ -435,7 +435,7 @@ const options = {
                     }
                 }
             },
-            "/users/{id}": {
+            "/user/{id}": {
                 get: {
                     tags: ['Users'],
                     summary: 'Get a user by ID.',
@@ -618,7 +618,7 @@ const options = {
                     }
                 }
             },
-            "/deals": {
+            "/deal": {
                 post: {
                     tags: ["Deals"],
                     summary: "Create a new deal.",
@@ -631,10 +631,10 @@ const options = {
                                     properties: {
                                         type: {
                                             type: 'string',
-                                            default: 'ENUM(Venda, Troca, Desejo)'
+                                            enum: ['Venda', 'Troca', 'Desejo']
                                         },
                                         value: {
-                                            type: 'number'
+                                            type: 'integer'
                                         },
                                         description: {
                                             type: 'string'
@@ -758,7 +758,7 @@ const options = {
                     }
                 }
             },
-            "/deals/{id}": {
+            "/deal/{id}": {
                 get: {
                     tags: ['Deals'],
                     summary: 'Return a deal by ID.',
@@ -783,13 +783,11 @@ const options = {
                 put: {
                     tags: ['Deals'],
                     summary: 'Update a deal by ID.',
-                    parameters: [
-                        {
-                            name: 'id',
-                            in: 'path',
-                            required: true
-                        }
-                    ],
+                    parameters: [{
+                        name: 'id',
+                        in: 'path',
+                        required: true
+                    }],
                     requestBody: {
                         required: true,
                         content: {
@@ -877,6 +875,164 @@ const options = {
                         },
                         '500': {
                             description: 'INTERNAL ERROR'
+                        }
+                    }
+                }
+            },
+            "/deal/search": {
+                post: {
+                    tags: ['Deals'],
+                    summary: 'Return a list of deals by the params',
+                    parameters: [{
+                            name: 'type',
+                            in: 'query',
+                            schema: {
+                                type: 'string',
+                                enum: ['Venda', 'Troca', 'Desejo']
+                            }
+                        },
+                        {
+                            name: 'value_start',
+                            in: 'query',
+                            type: 'integer'
+                        },
+                        {
+                            name: 'value_end',
+                            in: 'query',
+                            type: 'integer'
+                        },
+                        {
+                            name: 'term',
+                            in: 'query',
+                            type: 'string'
+                        },
+                        {
+                            name: 'lat',
+                            in: 'query',
+                            type: 'integer'
+                        },
+                        {
+                            name: 'lng',
+                            in: 'query',
+                            type: 'integer'
+                        }
+                    ],
+                    responses: {
+                        '200': {
+                            description: 'OK'
+                        }
+                    }
+                }
+            },
+            "/deal/{deal_id}/bid/{id}":{
+                get: {
+                    tags: ['Bids'],
+                    summary: 'Get a bid by deal ID and ID.',
+                    parameters: [
+                        {
+                            name: 'deal_id',
+                            in: 'path',
+                            required: true
+                        },
+                        {
+                            name: 'id',
+                            in: 'path',
+                            required: true
+                        }
+                    ],
+                    responses: {
+                        '200': {
+                            description: 'OK'
+                        },
+                        '404': {
+                            description: 'NOT FOUND'
+                        }
+                    }
+                },
+                put: {
+                    tags: ['Bids'],
+                    summary: 'Update a bid by ID.',
+                    parameters: [
+                        {
+                            name: 'deal_id',
+                            in: 'path',
+                            type: 'string',
+                            required: true
+                        },
+                        {
+                            name: 'id',
+                            in: 'path',
+                            type: 'string',
+                            required: true
+                        }
+                    ],
+                    requestBody: {
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    properties: {
+                                        user_id: {type: 'string'},
+                                        accepted: {type: 'boolean', default: true},
+                                        value: {type: 'integer'},
+                                        description: {type: 'string'}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    responses: {
+                        '200': {
+                            description: 'OK'
+                        }
+                    }
+                }
+            },
+            "/deal/{deal_id}/bid":{
+                post: {
+                    tags: ['Bids'],
+                    summary: 'Create a new bid.',
+                    parameters: [
+                        {
+                            name: 'deal_id',
+                            in: 'path',
+                            required: true
+                        }
+                    ],
+                    requestBody: {
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    properties: {
+                                        user_id: {type: 'string'},
+                                        accepted: {type: 'boolean'},
+                                        value: {type: 'integer'},
+                                        description: {type: 'string'}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    responses: {
+                        '201': {
+                            description: 'CREATED'
+                        }
+                    }
+                },
+                get: {
+                    tags: ['Bids'],
+                    summary: 'Return a list of bids by deal_id.',
+                    parameters: [
+                        {
+                            name: 'deal_id',
+                            in: 'path',
+                            required: true
+                        }
+                    ],
+                    responses: {
+                        '200': {
+                            description: 'OK'
                         }
                     }
                 }

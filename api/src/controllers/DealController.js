@@ -14,7 +14,8 @@ module.exports = {
         return res.status(200).json(deal);
     },
     search: async function(req, res){
-        const deal = await DealService.search(req.body);
+        const deals = await DealService.search(req.query);
+        return res.status(200).json(deals);
     },
     create: async function(req, res){
         const userId = await AuthService.extractUserIdFromToken(req.headers['authorization']);
