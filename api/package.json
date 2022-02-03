@@ -1,0 +1,22 @@
+{
+  "name": "vibbra-commerce",
+  "version": "1.0.0",
+  "description": "E-commerce project created for evaluation in the vibbra selection process.",
+  "main": "index.js",
+  "repository": "https://git.vibbra.com.br/juan/vibbra-commerce.git",
+  "author": "JuanSantos",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "nodemon app"
+  },
+  "dependencies": {
+    "dotenv-safe": "^8.2.0",
+    "express": "^4.17.2",
+    "express-validator": "^6.14.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.13",
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui-express": "^4.3.0"
+  }
+}
