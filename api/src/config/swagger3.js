@@ -1163,6 +1163,136 @@ const options = {
                         }
                     }
                 }
+            },
+            "/user/{user_id}/invite/{id}": {
+                get: {
+                    tags: ['Invites'],
+                    summary: 'Return a invite by user_id and id.',
+                    parameters: [
+                        {
+                            name: 'user_id',
+                            in: 'path',
+                            required: true,
+                            type: 'string'
+                        },
+                        {
+                            name: 'id',
+                            in: 'path',
+                            required: true,
+                            type: 'string'
+                        }
+                    ],
+                    responses: {
+                        '200': {
+                            description: 'OK'
+                        }
+                    }
+                },
+                put: {
+                    tags: ['Invites'],
+                    summary: 'Update a invite by user_id and id.',
+                    parameters: [
+                        {
+                            name: 'user_id',
+                            in: 'path',
+                            required: true,
+                            type: 'string'
+                        },
+                        {
+                            name: 'id',
+                            in: 'path',
+                            required: true,
+                            type: 'string'
+                        }
+                    ],
+                    requestBody: {
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    properties: {
+                                        name: {type: 'string'},
+                                        email: {type: 'string'},
+                                        user: {type: 'string'},
+                                        user_invite: {type: 'string'}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    responses: {
+                        '200': {
+                            description: 'OK'
+                        }
+                    }
+                }
+            },
+            "/user/{user_id}/invite": {
+                post: {
+                    tags: ['Invites'],
+                    summary: 'Create a new invite.',
+                    parameters: [
+                        {
+                            name: 'user_id',
+                            in: 'path',
+                            required: true,
+                            type: 'string'
+                        }
+                    ],
+                    requestBody: {
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    properties: {
+                                        name: {type: 'string'},
+                                        email: {type: 'string'},
+                                        user: {type: 'string'},
+                                        user_invite: {type: 'string'}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    responses: {
+                        '201': {
+                            description: 'CREATED'
+                        }
+                    }
+                },
+                get: {
+                    tags: ['Invites'],
+                    summary: 'Return a list of invites by user_id.',
+                    parameters: [
+                        {
+                            name: 'user_id',
+                            in: 'path',
+                            required: true,
+                            type: 'string'
+                        }
+                    ],
+                    responses: {
+                        '200': {
+                            description: 'OK',
+                            content: {
+                                'application/json': {
+                                    schema: {
+                                        type: 'array',
+                                        items: {
+                                            type: 'object',
+                                            properties: {
+                                                name: {type: 'string'},
+                                                email: {type: 'string'},
+                                                user: {type: 'string'},
+                                                user_invited: {type: 'string'}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     },
