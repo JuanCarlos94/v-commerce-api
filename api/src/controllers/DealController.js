@@ -7,7 +7,7 @@ module.exports = {
         if(!userId){
             return res.status(401).json({msg: 'Access denied.'});
         }
-        const deal = await DealService.findById(userId, req.params.id);
+        const deal = await DealService.findByIdAndUser(userId, req.params.id);
         if(!deal){
             return res.status(404).json({msg: 'Deal not found.'});
         }
