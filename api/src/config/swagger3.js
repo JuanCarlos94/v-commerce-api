@@ -1036,6 +1036,133 @@ const options = {
                         }
                     }
                 }
+            },
+            "/deal/{deal_id}/message/{id}": {
+                get: {
+                    tags: ['Messages'],
+                    summary: 'Return a message by deal_id and id.',
+                    parameters: [
+                        {
+                            name: 'deal_id',
+                            in: 'path',
+                            required: true,
+                            type: 'string'
+                        },
+                        {
+                            name: 'id',
+                            in: 'path',
+                            required: true,
+                            type: 'string'
+                        }
+                    ],
+                    responses: {
+                        '200': {
+                            description: 'OK'
+                        }
+                    }
+                },
+                put: {
+                    tags: ['Messages'],
+                    summary: 'Update a message by deal_id and id.',
+                    parameters: [
+                        {
+                            name: 'deal_id',
+                            in: 'path',
+                            required: true,
+                            type: 'string'
+                        },
+                        {
+                            name: 'id',
+                            in: 'path',
+                            required: true,
+                            type: 'string'
+                        }
+                    ],
+                    requestBody: {
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    properties: {
+                                        user_id: {type: 'string'},
+                                        title: {type: 'string'},
+                                        message: {type: 'string'}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    responses: {
+                        '200': {
+                            description: 'OK'
+                        }
+                    }
+                }
+            },
+            "/deal/{deal_id}/message": {
+                post: {
+                    tags: ['Messages'],
+                    summary: 'Create a new message.',
+                    parameters: [
+                        {
+                            name: 'deal_id',
+                            in: 'path',
+                            required: true,
+                            type: 'string'
+                        }
+                    ],
+                    requestBody: {
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    properties: {
+                                        user_id: {type: 'string'},
+                                        title: {type: 'string'},
+                                        message: {type: 'string'}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    responses: {
+                        '201': {
+                            description: 'CREATED'
+                        }
+                    }
+                },
+                get: {
+                    tags: ['Messages'],
+                    summary: 'Return a list of messages by deal_id.',
+                    parameters: [
+                        {
+                            name: 'deal_id',
+                            in: 'path',
+                            required: true,
+                            type: 'string'
+                        }
+                    ],
+                    responses: {
+                        '200': {
+                            description: 'OK',
+                            content: {
+                                'application/json': {
+                                    schema: {
+                                        type: 'array',
+                                        items: {
+                                            type: 'object',
+                                            properties: {
+                                                title: {type: 'string'},
+                                                user_id: {type: 'string'},
+                                                message: {type: 'string'}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     },

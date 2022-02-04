@@ -8,6 +8,7 @@ const AuthenticationController = require('./../controllers/AuthenticationControl
 const UserController = require('./../controllers/UserController');
 const DealController = require('./../controllers/DealController');
 const BidController = require('./../controllers/BidController');
+const MessageController = require('./../controllers/MessageController');
 
 /**
  * Authentication
@@ -34,5 +35,13 @@ routes.post('/deal/:deal_id/bid', BidController.create);
 routes.get('/deal/:deal_id/bid/:id', BidController.findById);
 routes.get('/deal/:deal_id/bid', BidController.findByDealId);
 routes.put('/deal/:deal_id/bid/:id', BidController.update);
+
+/**
+ * Messages
+ */
+routes.post('/deal/:deal_id/message', MessageController.create);
+routes.get('/deal/:deal_id/message/:id', MessageController.findById);
+routes.get('/deal/:deal_id/message', MessageController.findByDealId);
+routes.put('/deal/:deal_id/message/:id', MessageController.update);
 
 module.exports = routes;
