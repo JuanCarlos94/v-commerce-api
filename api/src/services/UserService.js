@@ -8,18 +8,16 @@ module.exports = {
         return created;
     },
     async findById(id){
-        return await User.findById(id).exec();
+        return await User.findOne({id: id}).exec();
     },
     async findByLogin(login){
         return await User.findOne({login: login}).exec();
     },
     async update(id, data){
-        return User.findByIdAndUpdate(id, data, {new: true}, (err, user) => {
-            if(err) {
-                console.log(err);
-                return null;
-            }
-            return user;
-        });
+        const user = this.findById(id);
+        return await user.update(data);
+    },
+    async findByEmail(email){
+        return await User.findOne({email: email}).exec();
     }
 }

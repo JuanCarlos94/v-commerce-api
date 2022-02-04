@@ -1,8 +1,9 @@
 const { Router } = require('express');
 const routes = Router();
+const { checkSchema } = require('express-validator');
 
 const AuthorizationMid = require('./../middlewares/AuthorizationMiddleware');
-const UserValidator = require('./../middlewares/UserValidator');
+const UserValidator = require('../validators/UserValidator');
 
 const AuthenticationController = require('./../controllers/AuthenticationController');
 const UserController = require('./../controllers/UserController');
@@ -21,9 +22,9 @@ routes.post('/sso', AuthenticationController.sso);
 /**
  * Users
  */
-routes.post('/user', UserController.create);
+routes.post('/user', checkSchema(UserValidator), UserController.create);
 routes.get('/user/:id', AuthorizationMid(), UserController.findById);
-routes.put('/user/:id', UserController.update);
+routes.put('/user/:id', checkSchema(UserValidator), UserController.update);
 
 /**
  * Deals
@@ -33,6 +34,9 @@ routes.get('/deal/:id', DealController.findById);
 routes.put('/deal/:id', DealController.update);
 routes.post('/deal/search', DealController.search);
 
+/**
+ * Bids
+ */
 routes.post('/deal/:deal_id/bid', BidController.create);
 routes.get('/deal/:deal_id/bid/:id', BidController.findById);
 routes.get('/deal/:deal_id/bid', BidController.findByDealId);

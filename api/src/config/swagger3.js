@@ -344,10 +344,6 @@ const options = {
                                                 type: "object",
                                                 required: true,
                                                 properties: {
-                                                    _id: {
-                                                        type: 'string',
-                                                        default: 'user_id'
-                                                    },
                                                     name: {
                                                         type: "string",
                                                         default: "User"
@@ -392,9 +388,6 @@ const options = {
                                                                 default: 0
                                                             }
                                                         }
-                                                    },
-                                                    _id: {
-                                                        type: 'string'
                                                     }
                                                 }
                                             }
@@ -431,6 +424,19 @@ const options = {
                                     }
                                 }
                             }
+                        },
+                        '500': {
+                            description: 'INTERNAL ERROR',
+                            content: {
+                                'application/json': {
+                                    schema: {
+                                        type: 'object',
+                                        properties: {
+                                            msg: {type: 'string', default: 'Internal error, try again!'}
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -446,7 +452,80 @@ const options = {
                     }],
                     responses: {
                         "200": {
-                            description: "OK"
+                            description: "OK",
+                            content: {
+                                "application/json": {
+                                    schema: {
+                                        type: 'object',
+                                        properties: {
+                                            user: {
+                                                type: "object",
+                                                required: true,
+                                                properties: {
+                                                    name: {
+                                                        type: "string",
+                                                        default: "User"
+                                                    },
+                                                    email: {
+                                                        type: "string",
+                                                        default: "user@mail.com"
+                                                    },
+                                                    login: {
+                                                        type: "string",
+                                                        default: "user"
+                                                    },
+                                                    password: {
+                                                        type: "string",
+                                                        default: "user123"
+                                                    },
+                                                    location: {
+                                                        type: "object",
+                                                        properties: {
+                                                            lat: {
+                                                                type: "number",
+                                                                default: 0
+                                                            },
+                                                            lng: {
+                                                                type: "number",
+                                                                default: 0
+                                                            },
+                                                            address: {
+                                                                type: "string",
+                                                                default: "Address test"
+                                                            },
+                                                            city: {
+                                                                type: "string",
+                                                                default: "City test"
+                                                            },
+                                                            state: {
+                                                                type: "string",
+                                                                default: "XX"
+                                                            },
+                                                            zip_code: {
+                                                                type: "number",
+                                                                default: 0
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        '403': {
+                            description: 'NOT FOUND',
+                            content: {
+                                'application/json': {
+                                    schema: {
+                                        type: 'object',
+                                        properties: {
+                                            msg: {type: 'string', default: 'Access denied.'}
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 },
@@ -465,10 +544,6 @@ const options = {
                                 schema: {
                                     type: "object",
                                     properties: {
-                                        _id: {
-                                            type: 'string',
-                                            default: 'user_id'
-                                        },
                                         name: {
                                             type: "string",
                                             default: "User 2"
@@ -575,9 +650,6 @@ const options = {
                                                                 default: 0
                                                             }
                                                         }
-                                                    },
-                                                    _id: {
-                                                        type: 'string'
                                                     }
                                                 }
                                             }
@@ -593,22 +665,8 @@ const options = {
                                     schema: {
                                         type: 'object',
                                         properties: {
-                                            error: {
-                                                type: 'object',
-                                                properties: {
-                                                    value: {
-                                                        type: 'string'
-                                                    },
-                                                    msg: {
-                                                        type: 'string'
-                                                    },
-                                                    param: {
-                                                        type: 'string'
-                                                    },
-                                                    location: {
-                                                        type: 'string'
-                                                    }
-                                                }
+                                            msg: {
+                                                type: 'string'
                                             }
                                         }
                                     }
@@ -1285,6 +1343,222 @@ const options = {
                                                 email: {type: 'string'},
                                                 user: {type: 'string'},
                                                 user_invited: {type: 'string'}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "/deal/{deal_id}/delivery": {
+                get: {
+                    tags: ['Shipping'],
+                    summary: 'Get shipping data for a deal.',
+                    parameters: [
+                        {
+                            name: 'deal_id',
+                            in: 'path',
+                            required: true,
+                            type: 'string'
+                        }
+                    ],
+                    responses: {
+                        '200': {
+                            description: 'OK',
+                            content: {
+                                'application/json': {
+                                    schema: {
+                                        type: 'object',
+                                        properties: {
+                                            delivery: {
+                                                type: 'object',
+                                                properties: {
+                                                    from: {
+                                                        type: "object",
+                                                        properties: {
+                                                            lat: {
+                                                                type: "number",
+                                                                default: 0
+                                                            },
+                                                            lng: {
+                                                                type: "number",
+                                                                default: 0
+                                                            },
+                                                            address: {
+                                                                type: "string",
+                                                                default: "Address test"
+                                                            },
+                                                            city: {
+                                                                type: "string",
+                                                                default: "City test"
+                                                            },
+                                                            state: {
+                                                                type: "string",
+                                                                default: "XX"
+                                                            },
+                                                            zip_code: {
+                                                                type: "number",
+                                                                default: 0
+                                                            }
+                                                        }
+                                                    },
+                                                    to: {
+                                                        type: "object",
+                                                        properties: {
+                                                            lat: {
+                                                                type: "number",
+                                                                default: 0
+                                                            },
+                                                            lng: {
+                                                                type: "number",
+                                                                default: 0
+                                                            },
+                                                            address: {
+                                                                type: "string",
+                                                                default: "Address test"
+                                                            },
+                                                            city: {
+                                                                type: "string",
+                                                                default: "City test"
+                                                            },
+                                                            state: {
+                                                                type: "string",
+                                                                default: "XX"
+                                                            },
+                                                            zip_code: {
+                                                                type: "number",
+                                                                default: 0
+                                                            }
+                                                        }
+                                                    },
+                                                    value: {type: 'integer'}
+                                                }
+                                            },
+                                            steps: {
+                                                type: 'array',
+                                                items: {
+                                                    type: 'object',
+                                                    properties: {
+                                                        location: {type: 'string'},
+                                                        incoming_date: {type: 'string', default: 'Y-m-d H:m:s'},
+                                                        outcoming_date: {type: 'string', default: 'Y-m-d H:m:s'}
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                post: {
+                    tags: ['Shipping'],
+                    summary: 'Get shipping data for a deal and user.',
+                    parameters: [
+                        {
+                            name: 'deal_id',
+                            in: 'path',
+                            required: true,
+                            type: 'string'
+                        }
+                    ],
+                    requestBody: {
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    properties: {
+                                        user_id: {type: 'string'}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    responses: {
+                        '200': {
+                            description: 'OK',
+                            content: {
+                                'application/json': {
+                                    schema: {
+                                        type: 'object',
+                                        properties: {
+                                            delivery: {
+                                                type: 'object',
+                                                properties: {
+                                                    from: {
+                                                        type: "object",
+                                                        properties: {
+                                                            lat: {
+                                                                type: "number",
+                                                                default: 0
+                                                            },
+                                                            lng: {
+                                                                type: "number",
+                                                                default: 0
+                                                            },
+                                                            address: {
+                                                                type: "string",
+                                                                default: "Address test"
+                                                            },
+                                                            city: {
+                                                                type: "string",
+                                                                default: "City test"
+                                                            },
+                                                            state: {
+                                                                type: "string",
+                                                                default: "XX"
+                                                            },
+                                                            zip_code: {
+                                                                type: "number",
+                                                                default: 0
+                                                            }
+                                                        }
+                                                    },
+                                                    to: {
+                                                        type: "object",
+                                                        properties: {
+                                                            lat: {
+                                                                type: "number",
+                                                                default: 0
+                                                            },
+                                                            lng: {
+                                                                type: "number",
+                                                                default: 0
+                                                            },
+                                                            address: {
+                                                                type: "string",
+                                                                default: "Address test"
+                                                            },
+                                                            city: {
+                                                                type: "string",
+                                                                default: "City test"
+                                                            },
+                                                            state: {
+                                                                type: "string",
+                                                                default: "XX"
+                                                            },
+                                                            zip_code: {
+                                                                type: "number",
+                                                                default: 0
+                                                            }
+                                                        }
+                                                    },
+                                                    value: {type: 'integer'}
+                                                }
+                                            },
+                                            steps: {
+                                                type: 'array',
+                                                items: {
+                                                    type: 'object',
+                                                    properties: {
+                                                        location: {type: 'string'},
+                                                        incoming_date: {type: 'string', default: 'Y-m-d H:m:s'},
+                                                        outcoming_date: {type: 'string', default: 'Y-m-d H:m:s'}
+                                                    }
+                                                }
                                             }
                                         }
                                     }
