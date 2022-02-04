@@ -1,7 +1,7 @@
 const Invite = require('../models/Invite');
 
 module.exports = {
-    async create(data){
+    async create(userId, data){
         const invitation = new Invite(data);
         return await invitation.save();
     },

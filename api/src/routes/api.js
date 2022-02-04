@@ -51,6 +51,6 @@ routes.put('/deal/:deal_id/message/:id', MessageController.update);
 routes.post('/user/:user_id/invite', InviteController.create);
 routes.get('/user/:user_id/invite/:id', InviteController.findById);
 routes.get('/user/:user_id/invite', InviteController.findByUser);
-routes.put('/user/:user_id/invite', InviteController.update);
+routes.put('/user/:user_id/invite/:id', InviteController.update);
 
 module.exports = routes;

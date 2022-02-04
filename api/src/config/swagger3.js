@@ -1214,7 +1214,7 @@ const options = {
                                         name: {type: 'string'},
                                         email: {type: 'string'},
                                         user: {type: 'string'},
-                                        user_invite: {type: 'string'}
+                                        user_invited: {type: 'string'}
                                     }
                                 }
                             }
@@ -1248,7 +1248,7 @@ const options = {
                                         name: {type: 'string'},
                                         email: {type: 'string'},
                                         user: {type: 'string'},
-                                        user_invite: {type: 'string'}
+                                        user_invited: {type: 'string'}
                                     }
                                 }
                             }

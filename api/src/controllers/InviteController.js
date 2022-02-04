@@ -1,26 +1,41 @@
 const service = require('../services/InviteService');
+const AuthService = require('../services/AuthenticationService');
 
 module.exports = {
     async create(req, res){
-        const invitation = await service.create(req.params.userId, req.body);
-        return res.status(201).json({invite: invitaiton});
+        const userId = await AuthService.extractUserIdFromToken(req.headers['authorization']);
+        if(req.params.user_id !== userId || userId !== req.body.user){
+            return res.status(403).json({msg: 'Access denied.'});
+        }
+        try{
+            const invite = await service.create(req.params.user_id, req.body);
+            return res.status(201).json({invite: invite});  
+        } catch(e){
+            return res.status(500).json({msg: 'Creating error, try again!'});
+        }
     },
     async findById(req, res){
-        const invitation = await service.findById(req.params.id, req.params.user_id);
-        if(!invitation){
+        try{
+            const invite = await service.findById(req.params.id, req.params.user_id);
+            return res.status(200).json({invite: invite});
+        } catch(e){
             return res.status(404).json({msg: 'Invite not found.'});
         }
-        return res.status(200).json({invite: invitation});
     },
     async findByUser(req, res){
-        const invite = await service.findByUser(req.params.user_id);
-        return res.status(200).json(invite);
+        try{
+            const invite = await service.findByUser(req.params.user_id);
+            return res.status(200).json(invite);
+        } catch(e){
+            return res.status(404).json({msg: 'No invites found.'});
+        }
     },
     async update(req, res){
-        const invite = await service.update(req.params.id, req.params.user_id, req.body);
-        if(!invite){
-            return res.status(400).json({msg: 'Updating error, try again!'});
+        try{
+            const invite = await service.update(req.params.id, req.params.user_id, req.body);
+            return res.status(200).json({invite: invite});
+        } catch(e){
+            return res.status(500).json({msg: 'Updating error, try again!'});
         }
-        return res.status(200).json({invite: invite});
     }
 }
