@@ -8,21 +8,21 @@ module.exports = {
                 console.error(err);
                 return null;
             }
-            return decoded.id;
+            return decoded._id;
         });
         return id;
     },
     generateAuthToken: async function(user){
-        const id = user._id;
-        const payload = {id};
+        const _id = user._id;
+        const payload = {_id};
         const token = await jwt.sign(payload, process.env.SECRET, {
             expiresIn: process.env.AUTHTOKEN_EXPIRES
         });
         return token;
     },
     getUserByToken: async function(token){
-        const userId = await this.extractUserIdFromToken(token);
-        const user = await UserService.findById(userId);
+        const _id = await this.extractUserIdFromToken(token);
+        const user = await UserService.findById(_id);
         return user;
     },
     removeBearerName: function(token) {
