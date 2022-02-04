@@ -10,6 +10,7 @@ const DealController = require('./../controllers/DealController');
 const BidController = require('./../controllers/BidController');
 const MessageController = require('./../controllers/MessageController');
 const InviteController = require('./../controllers/InviteController');
+const ShippingController = require('./../controllers/ShippingController');
 
 /**
  * Authentication
@@ -44,6 +45,12 @@ routes.post('/deal/:deal_id/message', MessageController.create);
 routes.get('/deal/:deal_id/message/:id', MessageController.findById);
 routes.get('/deal/:deal_id/message', MessageController.findByDealId);
 routes.put('/deal/:deal_id/message/:id', MessageController.update);
+
+/**
+ * Shippings
+ */
+routes.get('/deal/:deal_id/delivery', ShippingController.calculateByDeal);
+routes.post('/deal/:deal_id/delivery', ShippingController.calculateByDealAndUser)
 
 /**
  * Invites
