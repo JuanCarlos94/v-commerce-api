@@ -20,10 +20,14 @@ module.exports = {
     create: async function(req, res){
         const userId = await AuthService.extractUserIdFromToken(req.headers['authorization']);
         if(!userId) {
-            return res.status(403).json({msg: 'Access denied.'})
+            return res.status(401).json({msg: 'Access denied.'});
         }
-        const deal = await DealService.create(userId, req.body);
-        return res.status(201).json(deal);
+        try{
+            const deal = await DealService.create(userId, req.body);
+            return res.status(201).json(deal);
+        } catch(e){
+            return res.status(500).json({msg: 'Internal error, try again.'});
+        }
     },
     update: async function(req, res){
         const userId = await AuthService.extractUserIdFromToken(req.headers['authorization']);
