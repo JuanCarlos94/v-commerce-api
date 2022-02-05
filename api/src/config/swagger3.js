@@ -689,7 +689,7 @@ const options = {
                                     properties: {
                                         type: {
                                             type: 'string',
-                                            enum: ['Venda', 'Troca', 'Desejo']
+                                            default: 'ENUM(Venda, Troca, Desejo)'
                                         },
                                         value: {
                                             type: 'integer'
@@ -738,7 +738,7 @@ const options = {
                                                 },
                                                 limit_date: {
                                                     type: Date,
-                                                    default: 'Y-m-d'
+                                                    default: 'YYYY-MM-DD'
                                                 }
                                             }
                                         },
@@ -759,8 +759,8 @@ const options = {
                         }
                     },
                     responses: {
-                        '200': {
-                            description: 'OK',
+                        '201': {
+                            description: 'CREATED',
                             content: {
                                 'application/json': {
                                     schema: {
@@ -771,13 +771,42 @@ const options = {
                                                 default: 'ENUM(Venda, Troca, Desejo)'
                                             },
                                             value: {
-                                                type: 'number'
+                                                type: 'integer'
                                             },
                                             description: {
                                                 type: 'string'
                                             },
                                             trade_for: {
                                                 type: 'string'
+                                            },
+                                            location: {
+                                                type: "object",
+                                                properties: {
+                                                    lat: {
+                                                        type: "number",
+                                                        default: 0
+                                                    },
+                                                    lng: {
+                                                        type: "number",
+                                                        default: 0
+                                                    },
+                                                    address: {
+                                                        type: "string",
+                                                        default: "Address test"
+                                                    },
+                                                    city: {
+                                                        type: "string",
+                                                        default: "City test"
+                                                    },
+                                                    state: {
+                                                        type: "string",
+                                                        default: "XX"
+                                                    },
+                                                    zip_code: {
+                                                        type: "number",
+                                                        default: 0
+                                                    }
+                                                }
                                             },
                                             urgency: {
                                                 type: 'object',
@@ -788,7 +817,7 @@ const options = {
                                                     },
                                                     limit_date: {
                                                         type: Date,
-                                                        default: 'Y-m-d'
+                                                        default: 'YYYY-MM-DD'
                                                     }
                                                 }
                                             },
@@ -802,12 +831,33 @@ const options = {
                                                         }
                                                     }
                                                 }
-                                            },
-                                            user: {
-                                                _id: {
-                                                    type: 'string'
-                                                }
                                             }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        '401': {
+                            description: 'UNAUTHORIZED',
+                            content: {
+                                'application/json': {
+                                    schema: {
+                                        type: 'object',
+                                        properties: {
+                                            msg: {type: 'string'}
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        '500': {
+                            description: 'INTERNAL SERVER ERROR',
+                            content: {
+                                'application/json': {
+                                    schema: {
+                                        type: 'object',
+                                        properties: {
+                                            msg: {type: 'string'}
                                         }
                                     }
                                 }
@@ -828,13 +878,108 @@ const options = {
                     }],
                     responses: {
                         '200': {
-                            description: 'OK'
+                            description: 'OK',
+                            content: {
+                                'application/json': {
+                                    schema: {
+                                        type: 'object',
+                                        properties: {
+                                            type: {
+                                                type: 'string',
+                                                default: 'ENUM(Venda, Troca, Desejo)'
+                                            },
+                                            value: {
+                                                type: 'integer'
+                                            },
+                                            description: {
+                                                type: 'string'
+                                            },
+                                            trade_for: {
+                                                type: 'string'
+                                            },
+                                            location: {
+                                                type: "object",
+                                                properties: {
+                                                    lat: {
+                                                        type: "number",
+                                                        default: 0
+                                                    },
+                                                    lng: {
+                                                        type: "number",
+                                                        default: 0
+                                                    },
+                                                    address: {
+                                                        type: "string",
+                                                        default: "Address test"
+                                                    },
+                                                    city: {
+                                                        type: "string",
+                                                        default: "City test"
+                                                    },
+                                                    state: {
+                                                        type: "string",
+                                                        default: "XX"
+                                                    },
+                                                    zip_code: {
+                                                        type: "number",
+                                                        default: 0
+                                                    }
+                                                }
+                                            },
+                                            urgency: {
+                                                type: 'object',
+                                                properties: {
+                                                    type: {
+                                                        type: 'string',
+                                                        default: 'ENUM(Baixa, Média, Alta, Data)'
+                                                    },
+                                                    limit_date: {
+                                                        type: Date,
+                                                        default: 'YYYY-MM-DD'
+                                                    }
+                                                }
+                                            },
+                                            photos: {
+                                                type: 'array',
+                                                items: {
+                                                    type: 'object',
+                                                    properties: {
+                                                        src: {
+                                                            type: 'string'
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         },
                         '404': {
-                            description: 'NOT FOUND'
+                            description: 'NOT FOUND',
+                            content: {
+                                'application/json': {
+                                    schema: {
+                                        type: 'object',
+                                        properties: {
+                                            msg: {type: 'string'}
+                                        }
+                                    }
+                                }
+                            }
                         },
                         '401': {
-                            description: 'UNAUTHORIZED'
+                            description: 'UNAUTHORIZED',
+                            content: {
+                                'application/json': {
+                                    schema: {
+                                        type: 'object',
+                                        properties: {
+                                            msg: {type: 'string'}
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 },
@@ -926,13 +1071,108 @@ const options = {
                     },
                     responses: {
                         '200': {
-                            description: 'OK'
+                            description: 'OK',
+                            content: {
+                                'application/json': {
+                                    schema: {
+                                        type: 'object',
+                                        properties: {
+                                            type: {
+                                                type: 'string',
+                                                default: 'ENUM(Venda, Troca, Desejo)'
+                                            },
+                                            value: {
+                                                type: 'number'
+                                            },
+                                            description: {
+                                                type: 'string'
+                                            },
+                                            trade_for: {
+                                                type: 'string'
+                                            },
+                                            location: {
+                                                type: "object",
+                                                properties: {
+                                                    lat: {
+                                                        type: "number",
+                                                        default: 0
+                                                    },
+                                                    lng: {
+                                                        type: "number",
+                                                        default: 0
+                                                    },
+                                                    address: {
+                                                        type: "string",
+                                                        default: "Address test"
+                                                    },
+                                                    city: {
+                                                        type: "string",
+                                                        default: "City test"
+                                                    },
+                                                    state: {
+                                                        type: "string",
+                                                        default: "XX"
+                                                    },
+                                                    zip_code: {
+                                                        type: "number",
+                                                        default: 0
+                                                    }
+                                                }
+                                            },
+                                            urgency: {
+                                                type: 'object',
+                                                properties: {
+                                                    type: {
+                                                        type: 'string',
+                                                        default: 'ENUM(Baixa, Média, Alta, Data)'
+                                                    },
+                                                    limit_date: {
+                                                        type: Date,
+                                                        default: 'Y-m-d'
+                                                    }
+                                                }
+                                            },
+                                            photos: {
+                                                type: 'array',
+                                                items: {
+                                                    type: 'object',
+                                                    properties: {
+                                                        src: {
+                                                            type: 'string'
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         },
                         '404': {
-                            description: 'NOT FOUND'
+                            description: 'NOT FOUND',
+                            content: {
+                                'application/json': {
+                                    schema: {
+                                        type: 'object',
+                                        properties: {
+                                            msg: {type: 'string'}
+                                        }
+                                    }
+                                }
+                            }
                         },
                         '500': {
-                            description: 'INTERNAL ERROR'
+                            description: 'INTERNAL ERROR',
+                            content: {
+                                'application/json': {
+                                    schema: {
+                                        type: 'object',
+                                        properties: {
+                                            msg: {type: 'string'}
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
