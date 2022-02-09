@@ -1,4 +1,4 @@
-# Vibbra Commerce
+# Vibbra Commerce API
 
 ## Description
 This api aims to distribute data in the e-commerce model your modules are listed below.
