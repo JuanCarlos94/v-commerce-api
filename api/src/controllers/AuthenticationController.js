@@ -32,5 +32,8 @@ module.exports = {
             token: req.body.app_token,
             user: user
         });
+    },
+    logout: function(req, res){
+        return res.status(200).json({msg: 'Logout successfully'});
     }
 }

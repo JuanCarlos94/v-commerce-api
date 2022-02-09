@@ -4,9 +4,17 @@ const mongoose = require('mongoose');
 module.exports = {
     async create(userId, data){
         const deal = new Deal(data);
+        if(data.urgency.limit_date && data.urgency.limit_date.includes('/')){
+            deal.urgency.limit_date = this.formatDate(data.urgency.limit_date);
+        }
+        deal.value = parseFloat(data.value.replace('.', '').replace(',', "."));
         deal.setUserId(userId);
         deal.setPoint();
         return await deal.save();
+    },
+    formatDate(val){
+        const l = val.split('/');
+        return l[2] + '-' + l[1] + '-' + l[0];
     },
     async findByIdAndUser(userId, id){
         const deal = await Deal.findOne({_id: id, 'user._id': userId}).exec();
@@ -23,8 +31,11 @@ module.exports = {
             return obj;
         });
     },
-    async search(params){
-        let query = {};
+    async listByUserId(id){
+        return await Deal.find({'user._id': id}).exec();
+    },
+    async search(params, userId){
+        let query = {closed: false, 'user._id': {$ne: userId}};
         query = params.type ? Object.assign({type: params.type}, query) : query;
         if(params.value_start && params.value_end){
             query = Object.assign({value: {$gte: params.value_start, $lte: params.value_end}}, query)

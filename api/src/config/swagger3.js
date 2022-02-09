@@ -8,7 +8,7 @@ const options = {
             version: process.env.APP_VERSION
         },
         servers: [{
-            url: process.env.APP_HOST
+            url: process.env.API_URL
         }],
         components: {
             securitySchemes: {
@@ -448,7 +448,8 @@ const options = {
                     parameters: [{
                         name: 'id',
                         in: 'path',
-                        required: true
+                        required: false,
+                        default: ''
                     }],
                     responses: {
                         "200": {
@@ -862,6 +863,16 @@ const options = {
                                     }
                                 }
                             }
+                        }
+                    }
+                },
+                get: {
+                    tags: ['Deals'],
+                    summary: 'Return a list of deals created by the user.',
+                    responses: {
+                        '200': {
+                            description: 'OK',
+                            
                         }
                     }
                 }

@@ -32,7 +32,7 @@ const DealSchema = new Schema(
         urgency: {
             type: {
                 type: String, 
-                enum: ['Baixa', 'Média', 'Alta']
+                enum: ['Baixa', 'Média', 'Alta', 'Data']
             },
             limit_date:{
                 type: Date
@@ -48,7 +48,8 @@ const DealSchema = new Schema(
                 type: Schema.Types.ObjectId,
                 ref: 'User'
             }
-        }
+        },
+        closed: {type: Boolean, default: false}
     }
 );
 

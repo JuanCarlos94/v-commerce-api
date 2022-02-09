@@ -9,8 +9,9 @@ module.exports = {
         }
         try{
             const invite = await service.create(req.params.user_id, req.body);
-            return res.status(201).json({invite: invite});  
+            return res.status(201).json({invite: invite});
         } catch(e){
+            console.log(e);
             return res.status(500).json({msg: 'Creating error, try again!'});
         }
     },

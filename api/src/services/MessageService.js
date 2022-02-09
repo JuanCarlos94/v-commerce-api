@@ -11,7 +11,7 @@ module.exports = {
         return await Message.findOne({_id: id, deal_id: dealId}).exec();
     },
     async findByDealId(dealId){
-        return await Message.find({deal_id: dealId}).exec();
+        return await Message.find({deal_id: dealId}).populate('user_id', 'name').exec();
     },
     async update(id, dealId, data){
         return await Message.findOneAndUpdate({_id: id, deal_id: dealId}, data, (err, doc) => {

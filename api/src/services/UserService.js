@@ -8,7 +8,7 @@ module.exports = {
         return created;
     },
     async findById(id){
-        return await User.findOne({id: id}).exec();
+        return await User.findById(id);
     },
     async findByLogin(login){
         return await User.findOne({login: login}).exec();

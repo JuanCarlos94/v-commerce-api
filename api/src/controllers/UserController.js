@@ -6,7 +6,7 @@ module.exports = {
     async create(req, res){
         const errors = validationResult(req);
         if(!errors.isEmpty()){
-            return res.status(400).json({msg: errors.array().msg});
+            return res.status(400).json({msg: errors.array()});
         }
         let user = await UserService.findByEmail(req.body.email);
         if(user){
@@ -25,9 +25,14 @@ module.exports = {
     },
     async findById(req, res){
         const _id = await authService.extractUserIdFromToken(req.headers['authorization']);
-        const user = await UserService.findById(req.params.id);
-        if(_id != user._id){
-            return res.status(403).json({msg: 'Access denied.'});
+        let user = null;
+        if(req.params.id && req.params.id !== '{id}'){
+            if(_id !== req.params.id){
+                return res.status(403).json({msg: 'Access denied.'});
+            }
+            user = await UserService.findById(req.params.id);
+        } else{
+            user = await UserService.findById(_id);
         }
         return res.status(200).json({user: user});
     },

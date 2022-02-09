@@ -18,18 +18,21 @@ const ShippingController = require('./../controllers/ShippingController');
  */
 routes.post('/authenticate', AuthenticationController.authenticate);
 routes.post('/sso', AuthenticationController.sso);
+routes.post('/logout', AuthenticationController.logout);
 
 /**
  * Users
  */
 routes.post('/user', checkSchema(UserValidator), UserController.create);
-routes.get('/user/:id', AuthorizationMid(), UserController.findById);
+routes.get('/user/:id?', AuthorizationMid(), UserController.findById);
 routes.put('/user/:id', checkSchema(UserValidator), UserController.update);
 
 /**
  * Deals
  */
 routes.post('/deal', DealController.create);
+routes.get('/deal', DealController.listByUser);
+routes.get('/deal/userBids', DealController.listByDealWhereUserBid);
 routes.get('/deal/:id', DealController.findById);
 routes.put('/deal/:id', DealController.update);
 routes.post('/deal/search', DealController.search);
@@ -38,9 +41,11 @@ routes.post('/deal/search', DealController.search);
  * Bids
  */
 routes.post('/deal/:deal_id/bid', BidController.create);
-routes.get('/deal/:deal_id/bid/:id', BidController.findById);
 routes.get('/deal/:deal_id/bid', BidController.findByDealId);
+routes.get('/deal/:deal_id/user/bid', BidController.findByDealUserId);
+routes.get('/deal/:deal_id/bid/:id', BidController.findById);
 routes.put('/deal/:deal_id/bid/:id', BidController.update);
+routes.put('/deal/:deal_id/bid/:id/accept', BidController.acceptBid);
 
 /**
  * Messages

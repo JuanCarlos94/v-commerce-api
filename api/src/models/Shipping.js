@@ -42,7 +42,9 @@ ShippingSchema.methods.calculateShipping = function(){
 }
 
 ShippingSchema.methods.addStep = function(step){
-    this.steps = [];
+    if(this.steps.length === 0){
+        this.steps = [];
+    }
     this.steps.push(step);
 }
 
